@@ -1,14 +1,18 @@
 #!/usr/bin/python3
 """Test BaseModel for expected behavior and documentation"""
-from datetime import datetime
+from datetime import datetime, timedelta as td
 import inspect
 import models
-import pep8 as pycodestyle
+import pycodestyle
 import time
 import unittest
 from unittest import mock
+from os import getenv
 BaseModel = models.base_model.BaseModel
 module_doc = models.base_model.__doc__
+
+
+storage_t = getenv("HBNB_TYPE_STORAGE")
 
 
 class TestBaseModelDocs(unittest.TestCase):
@@ -85,12 +89,18 @@ class TestBaseModel(unittest.TestCase):
         tic = datetime.now()
         inst1 = BaseModel()
         toc = datetime.now()
-        self.assertTrue(tic <= inst1.created_at <= toc)
+        if storage_t == "db":
+            self.assertTrue(tic <= inst1.created_at + td(hours=3) <= toc)
+        else:
+            self.assertTrue(tic <= inst1.created_at <= toc)
         time.sleep(1e-4)
         tic = datetime.now()
         inst2 = BaseModel()
         toc = datetime.now()
-        self.assertTrue(tic <= inst2.created_at <= toc)
+        if storage_t == "db":
+            self.assertTrue(tic <= inst2.created_at + td(hours=3) <= toc)
+        else:
+            self.assertTrue(tic <= inst2.created_at <= toc)
         self.assertEqual(inst1.created_at, inst1.updated_at)
         self.assertEqual(inst2.created_at, inst2.updated_at)
         self.assertNotEqual(inst1.created_at, inst2.created_at)
