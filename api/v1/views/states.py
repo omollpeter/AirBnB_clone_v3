@@ -57,10 +57,10 @@ def create_state():
     """
     fields = request.get_json()
     if not fields:
-        return "Not a JSON", 400
+        abort(400, "Not a JSON")
     name = fields.get("name")
     if not name:
-        return "Missing name", 400
+        abort(400, "Missing name")
     state = State(name=name)
     state.save()
     storage.save()
@@ -76,7 +76,7 @@ def update_state(state_id):
         if state.id == state_id:
             fields = request.get_json()
             if not fields:
-                return "Not a JSON", 400
+                abort(400, "Not a JSON")
             for k, v in fields.items():
                 if k == "name":
                     state.name = v

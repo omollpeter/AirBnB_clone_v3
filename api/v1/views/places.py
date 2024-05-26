@@ -74,7 +74,7 @@ def create_place(city_id):
     name = fields.get("name")
     user_id = fields.get("user_id")
     if not user_id:
-        return "Missing user_id", 400
+        abort(400, "Missing user_id")
     users = storage.all(User)
     u = False
     for user in users.values():
