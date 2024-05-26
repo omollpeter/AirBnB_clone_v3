@@ -61,7 +61,9 @@ def create_state():
     name = fields.get("name")
     if not name:
         return "Missing name", 400
-    state = State(name)
+    state = State(name=name)
+    state.save()
+    storage.save()
     return state.to_dict(), 201
 
 
@@ -70,7 +72,7 @@ def update_state(state_id):
     """
     Updates a state object
     """
-    for state in storage.all().values():
+    for state in storage.all(State).values():
         if state.id == state_id:
             fields = request.get_json()
             if not fields:
