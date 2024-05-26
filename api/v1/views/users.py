@@ -66,17 +66,7 @@ def create_user():
         return "Missing email", 400
     if not password:
         return "Missing password", 400
-    if first_name and last_name:
-        user = User(
-            first_name=first_name, last_name=last_name, email=email,
-            password=password
-        )
-    elif first_name:
-        user = User(first_name=first_name, email=email, password=password)
-    elif last_name:
-        user = User(last_name=last_name, email=email, password=password)
-    else:
-        user = User(email=email, password=password)
+    user = User(**fields)
     user.save()
     storage.save()
     return user.to_dict(), 201
