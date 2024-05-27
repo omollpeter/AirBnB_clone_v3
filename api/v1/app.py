@@ -17,6 +17,11 @@ def error_404(error):
     return make_response(jsonify({"error": "Not found"})), 404
 
 
+@app.errorhandler(400)
+def bad_request(error):
+    return make_response(error.description), 400
+
+
 @app.teardown_appcontext
 def teardown_db(exception=None):
     """

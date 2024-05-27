@@ -70,7 +70,7 @@ def create_place(city_id):
         abort(404)
     fields = request.get_json()
     if not fields:
-        return "Not a JSON", 400
+        abort(400, "Not a JSON")
     name = fields.get("name")
     user_id = fields.get("user_id")
     if not user_id:
@@ -84,7 +84,7 @@ def create_place(city_id):
         abort(404)
 
     if not name:
-        return "Missing name", 400
+        abort(400, "Missing name")
     fields["city_id"] = city_id
     place = Place(**fields)
     place.save()
