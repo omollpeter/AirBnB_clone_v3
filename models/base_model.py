@@ -33,7 +33,7 @@ class BaseModel:
         if kwargs:
             for key, value in kwargs.items():
                 if key == "password":
-                    hash_object = hash_lib.md5()
+                    hash_object = hashlib.md5()
                     hash_object.update(value.encode())
                     value = hash_object.hexdigest()
                 if key != "__class__":
