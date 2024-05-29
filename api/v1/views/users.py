@@ -55,6 +55,8 @@ def create_user():
     """
     Creates an new User object and stores it
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     fields = request.get_json()
     if not fields:
         return "Not a JSON", 400
@@ -77,6 +79,8 @@ def update_user(user_id):
     """
     Updates a user object
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     for user in storage.all(User).values():
         if user.id == user_id:
             fields = request.get_json()

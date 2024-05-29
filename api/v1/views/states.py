@@ -55,6 +55,8 @@ def create_state():
     """
     Creates an new State object and stores it
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     fields = request.get_json()
     if not fields:
         abort(400, "Not a JSON")
@@ -72,6 +74,8 @@ def update_state(state_id):
     """
     Updates a state object
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     for state in storage.all(State).values():
         if state.id == state_id:
             fields = request.get_json()
