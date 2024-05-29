@@ -55,6 +55,8 @@ def create_amenity():
     """
     Creates an new Amenity object and stores it
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     fields = request.get_json()
     if not fields:
         return "Not a JSON", 400
@@ -72,6 +74,8 @@ def update_amenity(amenity_id):
     """
     Updates a amenity object
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     for amenity in storage.all(Amenity).values():
         if amenity.id == amenity_id:
             fields = request.get_json()

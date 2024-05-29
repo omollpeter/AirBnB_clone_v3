@@ -60,6 +60,8 @@ def create_place(city_id):
     """
     Creates an new Place object and stores it
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     cities = storage.all(City)
     c = False
 
@@ -97,6 +99,8 @@ def update_place(place_id):
     """
     Updates a place object
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     for place in storage.all(Place).values():
         if place.id == place_id:
             fields = request.get_json()

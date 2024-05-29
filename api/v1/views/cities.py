@@ -59,6 +59,8 @@ def create_city(state_id):
     """
     Creates an new City object and stores it
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     states = storage.all(State)
     s = False
 
@@ -84,6 +86,8 @@ def update_city(city_id):
     """
     Updates a city object
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     for city in storage.all(City).values():
         if city.id == city_id:
             fields = request.get_json()

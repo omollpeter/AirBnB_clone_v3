@@ -57,6 +57,8 @@ def create_place_review(place_id):
     """
     Creates a Review object for a place
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     places = storage.all(Place)
     fields = request.get_json()
 
@@ -94,6 +96,8 @@ def update_review(review_id):
     """
     Updates a Review object
     """
+    if request.headers.get("Content-Type") != "application/json":
+        abort(400, "Not a JSON")
     for review in storage.all(Review).values():
         if review.id == review_id:
             fields = request.get_json()
